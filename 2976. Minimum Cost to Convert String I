@@ -1,0 +1,31 @@
+class Solution {
+    public long minimumCost(String source, String target, char[] o, char[] c, int[] cost) {
+        long dist[][] = new long[26][26];
+        for(int i=0;i<26;i++){
+            Arrays.fill(dist[i], Integer.MAX_VALUE);
+            dist[i][i] = 0;
+        }
+        for(int i=0;i<cost.length;i++){
+            int orig =o[i]-'a';
+            int chnge =c[i]-'a';
+            dist[orig][chnge] = Math.min(dist[orig][chnge], cost[i]);
+        }
+        for(int k=0;k<26;k++){
+            for(int i=0;i<26;i++){
+                for(int j=0;j<26;j++){
+                    if (dist[i][k] != Integer.MAX_VALUE && dist[k][j] != Integer.MAX_VALUE) {
+                         dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
+                    }
+                }
+            }
+        }
+        long count=0;
+        for(int i=0;i<source.length();i++){
+            int s =(char)(source.charAt(i)-'a');
+            int t =(char)(target.charAt(i)-'a');
+            if (dist[s][t]  == Integer.MAX_VALUE)return -1L;
+            count+=dist[s][t];
+        }
+        return count;
+    }
+}
