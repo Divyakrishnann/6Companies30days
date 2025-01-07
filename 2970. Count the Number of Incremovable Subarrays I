@@ -1,0 +1,26 @@
+class Solution {
+    public boolean h(int start,int end,int[] nums){
+        int prev = 0;
+        for(int i=0;i<nums.length;i++){
+            // is i in range from start to end
+            //  for ex 0 to 2
+            // i>=0 && i<=2 lets say i=1 soo in tht case we are not checking 
+            // for i since this range its getting removed and it doesnt needs
+            // to be in increasing order
+            if(i<=end && i>=start)continue;
+            if(prev>=nums[i])return false;
+            prev = nums[i];
+        }
+        return true;
+    }
+    public int incremovableSubarrayCount(int[] nums) {
+        int c=0;
+       for(int i=0;i<nums.length;i++){
+            for(int j=i;j<nums.length;j++){
+                if(h(i,j,nums))c++;
+            }
+       }
+       return c;
+    }
+}
+
