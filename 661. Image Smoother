@@ -1,0 +1,57 @@
+class Solution {
+    public int[][] imageSmoother(int[][] img) {
+        int n = img.length;
+        int m = img[0].length;
+        // int dir[][] = {{-1,0},{1,0},{0,1},{0,-1},{-1,-1},
+        // {1,1},{1,-1},{-1,1}};
+        int prev=0;
+        int[] g = new int[m];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                int sum =img[i][j];
+                int count =1;
+                // bottom
+                if(i+1<n){
+                    sum+=img[i+1][j];
+                    count++;
+                    if(j-1>=0){
+                        sum+=img[i+1][j-1];
+                        count++;
+                    }
+                    if(j+1<m){
+                        sum+=img[i+1][j+1];
+                        count++;
+                    }
+                }
+                // right
+                if(j+1<m){
+                    sum+=img[i][j+1];
+                    count++;
+                }
+                // left
+                if(j-1>=0){
+                    sum+=g[j-1];
+                    count++;
+                }
+                // top
+                if(i-1>=0){
+                    // topmostcorner
+                    if(j-1>=0){
+                        sum+=prev;
+                        count++;
+                    }
+                    sum+=g[j];
+                    count++;
+                    if(j+1<m){
+                        sum+=g[j+1];
+                        count++;
+                    }
+                } 
+                prev = g[j]
+                g[j] =img[i][j]; 
+                img[i][j] = sum/count;
+            }
+        }
+        return img;
+    }
+}
