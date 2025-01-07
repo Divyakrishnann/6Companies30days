@@ -1,0 +1,33 @@
+class Solution {
+    Map<List<Integer>, Integer> memo = new HashMap<>();
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+       int cst =0;
+        if(memo.containsKey(needs)){
+            return memo.get(needs);
+        }
+        for(int k =0;k<needs.size();k++){
+            cst+= needs.get(k)*price.get(k);
+        }
+        for(int i=0;i<special.size();i++){
+            boolean f=false;
+            for(int k=0;k<needs.size();k++){
+                if(special.get(i).get(k)>needs.get(k)){
+                    f=true;
+                    break;
+                }
+            }
+            if(!f){
+                for(int k=0;k<needs.size();k++){
+                    needs.set(k,needs.get(k)-special.get(i).get(k));
+                }
+                int ans =special.get(i).get(needs.size()) + shoppingOffers(price,special,needs);
+                cst = Math.min(ans,cst);
+                for(int k=0;k<needs.size();k++){
+                    needs.set(k,needs.get(k)+special.get(i).get(k));
+                }
+            }
+        }
+        memo.put(needs,cst);
+        return cst;
+    }
+}
