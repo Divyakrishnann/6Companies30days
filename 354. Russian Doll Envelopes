@@ -1,0 +1,27 @@
+class Solution {
+     public int lower(int t, ArrayList<Integer> ll) {
+        int l = 0, h = ll.size() - 1;
+        while (l < h) {
+            int mid = l + (h - l) / 2;
+            if (ll.get(mid) < t) {
+                l = mid + 1; // Search right half
+            } else {
+                h = mid; // Search left half
+            }
+        }
+        return l; // Position to insert or replace
+    }
+    public int maxEnvelopes(int[][] E) {
+        Arrays.sort(E, (a,b) -> a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]);
+        ArrayList<Integer> l = new ArrayList<>();
+        l.add(E[0][1]);
+        for(int i=1;i<E.length;i++){
+            if(E[i][1]>l.get(l.size()-1))l.add(E[i][1]);
+            else{
+                int ind = lower(E[i][1],l);
+                l.set(ind,E[i][1]);
+            }
+        }
+        return l.size();
+    }
+}
