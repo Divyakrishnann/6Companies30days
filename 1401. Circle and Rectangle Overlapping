@@ -1,0 +1,9 @@
+class Solution {
+    public boolean checkOverlap(int radius, int xC, int yC, int x1, int y1, int x2, int y2) {
+       int x = Math.max(x1,Math.min(x2,xC));
+       int y = Math.max(y1,Math.min(y2,yC));
+       int xx = xC-x;
+       int yy = yC-y;    
+       return Math.pow(xx,2)+Math.pow(yy,2)<=Math.pow(radius,2);
+    }
+}
