@@ -1,30 +1,24 @@
 class Solution {
-    public boolean asteroidsDestroyed(int mass, int[] a) {
+    public boolean asteroidsDestroyed(int mass, int[] asteroids) {
+        int[] masses = new int[100002];
         
-        boolean condition = false;
-        int count = 0;
-        int max = (int)1e5;
-
-        while (!condition){
-            condition = true;
-            for (int i = 0; i < a.length; i++){
-
-                if (mass >= a[i]){
-
-                    mass += a[i];
-                    a[i] = Integer.MAX_VALUE;
-                    condition = false;
-                    count++;
-
-                    if (mass > max) return true;
-
-                }
-
-            }
-
+        for(int i : asteroids){
+            masses[i]++;
         }
-
-        return count == a.length;
-
+        
+        int n = masses.length;
+        long planetMass = mass;
+        
+        for(int i=0 ; i<n ; i++){
+            if(masses[i] == 0){
+                continue;
+            }
+            if(planetMass < i){
+                return false;
+            }
+            planetMass += (i * masses[i]);
+        }
+        
+        return true;
     }
 }
